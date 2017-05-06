@@ -17,14 +17,15 @@ $xhr.done(function(data){
 //CREATE INFO MODALS FUNCTION===================================
 var planets = ["sun", "mercury", "venus", "earth", "mars", "jupiter", "saturn", "uranus", "neptune"]
 
-function aboutModals(planetArr){
+function topicModals(planetArr, topic){
   for(var i=0; i<planetArr.length; i++){
-    let modal = planetArr[i]+"AboutModal";
-    let body = planetArr[i]+"AboutBody";
+    let modal = planetArr[i] + topic + "Modal";
+    let body = planetArr[i] + topic + "Body";
+    console.log(modal,body);
     createModal(modal, body);
   }
 }
-aboutModals(planets);
+topicModals(planets, "About");
 
 
 
