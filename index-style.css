@@ -1,0 +1,15 @@
+
+/*MAKES MODAL SCROLL WITHIN WINDOW*/
+.modal .modal-body {
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+.modal .modal-content{
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 5;
+}
+
+div .modal-backdrop .fade .in{
+  z-index: 1;
+}

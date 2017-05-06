@@ -28,6 +28,8 @@
 <!-- INTERNAL STYLE SHEET - MUST BE LAST -->
     <link rel="stylesheet" type="text/css" media="screen" href="./solar-system/css/styles.css">
 
+<!-- EMF CSS SHEET -->
+    <link rel="stylesheet" href="index-style.css">
 
 </head>
 
@@ -41,27 +43,73 @@
 
 
 <!-- BOTTOM PLANET NAV -->
-    <div id="data">
-        <a class="sun" href="#sunspeed">Sun</a>
+  <div id="data">
+      <a class="sun" id="sunNav" href="#sunspeed">Sun</a>
 
-        <a class="mercury" href="#mercuryspeed">Mercury</a>
+      <a class="mercury" id="mercuryNav" href="#mercuryspeed">Mercury</a>
 
-        <a class="venus" href="#venusspeed">Venus</a>
+      <a class="venus" id="venusNav" href="#venusspeed">Venus</a>
 
-        <a class="earth active" href="#earthspeed">Earth</a>
+      <a class="earth active" id="earthNav" href="#earthspeed">Earth</a>
 
-        <a class="mars" href="#marsspeed">Mars</a>
+      <a class="mars" id="marsNav" href="#marsspeed">Mars</a>
 
-        <a class="jupiter" href="#jupiterspeed">Jupiter</a>
+      <a class="jupiter" id="jupiterNav" href="#jupiterspeed">Jupiter</a>
 
-        <a class="saturn" href="#saturnspeed">Saturn</a>
+      <a class="saturn" id="saturnNav" href="#saturnspeed">Saturn</a>
 
-        <a class="uranus" href="#uranusspeed">Uranus</a>
+      <a class="uranus" id="uranusNav" href="#uranusspeed">Uranus</a>
 
-        <a class="neptune" href="#neptunespeed">Neptune</a>
-    </div>
+      <a class="neptune" id="neptuneNav" href="#neptunespeed">Neptune</a>
+  </div>
 <!-- END BOTTOM PLANET NAV -->
 
+
+
+<!-- ABOUT MODALS -->
+
+
+    <!-- BLANK MODAL -->
+    <div class="modal fade" id="blankModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal">
+            </button>
+          </div>
+          <div class="modal-body">
+            <p id="blankBody"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- MERCURY ABOUT MODAL -->
+    <!-- <div class="modal fade" id="mercuryModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal">
+            </button>
+          </div>
+          <div class="modal-body">
+            <p id="mercuryAbout"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+
+<!-- END ABOUT MODALS -->
 
 
 <!-- RIGHT SIDE CONTROLS -->

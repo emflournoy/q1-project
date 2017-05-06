@@ -2,29 +2,41 @@ $(document).ready(function(){
 
 $('[data-toggle="popover"]').popover();
 
-//API STUFF===================================
+//API STUFF============================================
 
 // var $planet =
 var $xhr = $.getJSON('https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=planets/mercury/indepth');
 
 $xhr.done(function(data){
   console.log(data);
+  $('#mercuryAbout').html(`${data.main.content}`);
   });
 
-console.log($('#testdiv'))
 
-subNav('.sun');
-subNav('.mercury');
-subNav('.venus');
-subNav('.earth');
-subNav('.mars');
-subNav('.jupiter');
-subNav('.saturn');
-subNav('.uranus');
-subNav('.neptune');
+//CALLING NAV BAR POPUPS FOR PLANETS====================
+subNav('#sunNav');
+subNav('#mercuryNav');
+subNav('#venusNav');
+subNav('#earthNav');
+subNav('#marsNav');
+subNav('#jupiterNav');
+subNav('#saturnNav');
+subNav('#uranusNav');
+subNav('#neptuneNav');
 
 
-//PLANET NAV BAR POPUPS===================================
+//CREATE INFO MODALS FUNCTION===================================
+
+function createModal(planetTopic, planetTopicBody){
+  let $modal = $("#blankModal").clone();
+  $modal.removeAttr("id");
+  $modal.attr("id", planetTopic);
+  let $body = $modal.find("p");
+  $body.attr("id", planetTopicBody);
+}
+
+
+//PLANET NAV BAR POPUPS FUNCTION=================================
 function subNav(planetClass) {
   // initialize popover with dynamic content
   $(planetClass).popover({
@@ -32,7 +44,7 @@ function subNav(planetClass) {
     container: 'body',
     html: true,
     trigger: 'hover',
-    content: '<p>Select a topic to find out more!</p><button type="button" class="btn btn-default popover-dismiss">About</button>'
+    content: '<p>Select a topic to find out more!</p><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#mercuryModal">About</button>'
   });
   // prevent popover from being hidden on mouseout.
   // only dismiss when explicity clicked (e.g. has .hide-popover)
@@ -47,12 +59,14 @@ function subNav(planetClass) {
   $(planetClass).on('hidden.bs.popover', function(evt) {
     $(this).removeClass('hide-popover');
   });
-  $('body').on('click', '.popover-dismiss', function() {
-    // add helper class to force dismissal
-    $(planetClass).addClass('hide-popover');
-    // call method to hide popover
-    $(planetClass).popover('hide');
-  });
+
+  // button in popover closing popover original text
+  // $('body').on('click', '.popover-about', function() {
+  //   // add helper class to force dismissal
+  //   $(planetClass).addClass('hide-popover');
+  //   // call method to hide popover
+  //   $(planetClass).popover('hide');
+  // });
 
       $(planetClass).data('overButton', false);
       $(planetClass).data('overPopover', false);
@@ -90,7 +104,7 @@ function subNav(planetClass) {
       });
     };
 
-
+//END PLANET NAV BAR POPUPS FUNCTION===================================
 
 
 

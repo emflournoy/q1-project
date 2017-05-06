@@ -27,3 +27,7 @@
 
 7) Include link to project planning tool.
     https://trello.com/b/H6fPx8Pp/q1-project
+
+
+
+run on python: python -m SimpleHTTPServer 3000
