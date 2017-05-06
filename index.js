@@ -15,7 +15,18 @@ $xhr.done(function(data){
 
 
 //CREATE INFO MODALS FUNCTION===================================
-createModal("mercuryAboutModal","mercuryAboutBody");
+var planets = ["sun", "mercury", "venus", "earth", "mars", "jupiter", "saturn", "uranus", "neptune"]
+
+function aboutModals(planetArr){
+  for(var i=0; i<planetArr.length; i++){
+    let modal = planetArr[i]+"AboutModal";
+    let body = planetArr[i]+"AboutBody";
+    createModal(modal, body);
+  }
+}
+aboutModals(planets);
+
+
 
 
 //CALLING NAV BAR POPUPS FOR PLANETS====================
@@ -33,14 +44,12 @@ subNav('#neptuneNav');
 //CREATE INFO MODALS FUNCTION===================================
 
 function createModal(planetTopicModal, planetTopicBody){
-  console.log('working');
   let $modal = $("#blankModal").clone();
   $modal.removeAttr("id");
   $modal.attr("id", planetTopicModal);
   let $mbody = $modal.find("p");
   $mbody.attr("id", planetTopicBody);
   $('body').append($modal);
-  console.log($modal);
 }
 
 
