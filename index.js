@@ -9,8 +9,13 @@ var $xhr = $.getJSON('https://g-solarsystem.herokuapp.com/json/page-json.cfm?URL
 
 $xhr.done(function(data){
   console.log(data);
-  $('#mercuryAbout').html(`${data.main.content}`);
+  $('#mercuryAboutBody').html(`${data.main.content}`);
   });
+
+
+
+//CREATE INFO MODALS FUNCTION===================================
+createModal("mercuryAboutModal","mercuryAboutBody");
 
 
 //CALLING NAV BAR POPUPS FOR PLANETS====================
@@ -27,28 +32,31 @@ subNav('#neptuneNav');
 
 //CREATE INFO MODALS FUNCTION===================================
 
-function createModal(planetTopic, planetTopicBody){
+function createModal(planetTopicModal, planetTopicBody){
+  console.log('working');
   let $modal = $("#blankModal").clone();
   $modal.removeAttr("id");
-  $modal.attr("id", planetTopic);
-  let $body = $modal.find("p");
-  $body.attr("id", planetTopicBody);
+  $modal.attr("id", planetTopicModal);
+  let $mbody = $modal.find("p");
+  $mbody.attr("id", planetTopicBody);
+  $('body').append($modal);
+  console.log($modal);
 }
 
 
 //PLANET NAV BAR POPUPS FUNCTION=================================
-function subNav(planetClass) {
+function subNav(planetId) {
   // initialize popover with dynamic content
-  $(planetClass).popover({
+  $(planetId).popover({
     placement: 'top',
     container: 'body',
     html: true,
     trigger: 'hover',
-    content: '<p>Select a topic to find out more!</p><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#mercuryModal">About</button>'
+    content: '<p>Select a topic to find out more!</p><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#mercuryAboutModal">About</button>'
   });
   // prevent popover from being hidden on mouseout.
   // only dismiss when explicity clicked (e.g. has .hide-popover)
-  $(planetClass).on('hide.bs.popover', function(evt) {
+  $(planetId).on('hide.bs.popover', function(evt) {
     if(!$(evt.target).hasClass('hide-popover')) {
       evt.preventDefault();
       evt.stopPropagation();
@@ -56,20 +64,20 @@ function subNav(planetClass) {
     }
   });
   // reset helper class when dismissed
-  $(planetClass).on('hidden.bs.popover', function(evt) {
+  $(planetId).on('hidden.bs.popover', function(evt) {
     $(this).removeClass('hide-popover');
   });
 
   // button in popover closing popover original text
   // $('body').on('click', '.popover-about', function() {
   //   // add helper class to force dismissal
-  //   $(planetClass).addClass('hide-popover');
+  //   $(planetId).addClass('hide-popover');
   //   // call method to hide popover
-  //   $(planetClass).popover('hide');
+  //   $(planetId).popover('hide');
   // });
 
-      $(planetClass).data('overButton', false);
-      $(planetClass).data('overPopover', false);
+      $(planetId).data('overButton', false);
+      $(planetId).data('overPopover', false);
       $.fn.closePopover = function(){
         var $this = $(this);
 
@@ -81,17 +89,17 @@ function subNav(planetClass) {
 
       //set flags when mouse enters the button or the popover.
       //When the mouse leaves unset immediately, wait a second (to allow the mouse to enter again or enter the other) and then test to see if the mouse is no longer over either. If not, close popover.
-      $(planetClass).on('mouseenter', function(evt){
+      $(planetId).on('mouseenter', function(evt){
         $(this).data('overButton', true);
       });
-      $(planetClass).on('mouseleave', function(evt){
+      $(planetId).on('mouseleave', function(evt){
         var $btn = $(this);
         $btn.data('overButton', false);
 
         setTimeout(function() {$btn.closePopover();}, 200);
 
       });
-      $(planetClass).on('shown.bs.popover', function () {
+      $(planetId).on('shown.bs.popover', function () {
         var $btn = $(this);
         $('.popover-content').on('mouseenter', function (evt){
           $btn.data('overPopover', true);
