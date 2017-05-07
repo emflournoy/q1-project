@@ -3,9 +3,12 @@ $(document).ready(function(){
 $('[data-toggle="popover"]').popover();
 
 
-//PLANET ARRAY FOR OVERALL USE===================================
+//THINGS FOR OVERALL USE===================================
 var planets = ["sun", "mercury", "venus", "earth", "mars", "jupiter", "saturn", "uranus", "neptune"]
 
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
 
 
 //ABOUT PLANET API CALL FUNCTION==================================
@@ -26,7 +29,12 @@ function topicModals(planetArr, topic){
   for(let i=0; i<planetArr.length; i++){
     let modal = planetArr[i] + topic + "Modal";
     let body = planetArr[i] + topic + "Body";
-    createModal(modal, body);
+    let titleId = planetArr[i] + topic + "Title"
+    if(i===0){
+      let title = "All About the " + planetArr[i].capitalize() + "!"
+    }
+    let title = "All About " + planetArr[i].capitalize() + "!"
+    createModal(modal, body, titleId, title);
   }
 }
 topicModals(planets, "About");
@@ -47,12 +55,14 @@ navPopups(planets, "About");
 
 //CREATE INFO MODALS FUNCTION===================================
 
-function createModal(planetTopicModal, planetTopicBody){
+function createModal(planetTopicModal, planetTopicBody, planetTopicTitleId, planetTopicTitle){
   let $modal = $("#blankModal").clone();
   $modal.removeAttr("id");
   $modal.attr("id", planetTopicModal);
   let $mbody = $modal.find("p");
   $mbody.attr("id", planetTopicBody);
+  let $title = $modal.find("h5");
+  $title.html(planetTopicTitle);
   $('body').append($modal);
 }
 
