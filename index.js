@@ -12,15 +12,16 @@ String.prototype.capitalize = function() {
 
 
 //ABOUT PLANET API CALL FUNCTION==================================
-function aboutData(planetArr){
+function topicGetData(planetArr,nasaTopic, topicModal){
   for(let i=0; i<planetArr.length; i++){
-    var $xhr = $.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=planets/${planetArr[i]}/indepth`);
+    var $xhr = $.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=planets/${planetArr[i]}/${nasaTopic}`);
     $xhr.done(function(data){
-      $(`#${planetArr[i]}AboutBody`).html(`${data.main.content}`);
+      $(`#${planetArr[i]}${topicModal}Body`).html(`${data.main.content}`);
       });
   }
 }
-aboutData(planets);
+topicGetData(planets, 'indepth', 'About');
+// topicGetData(['saturn'], 'rings', 'Rings');
 
 
 
@@ -29,15 +30,17 @@ function topicModals(planetArr, topic){
   for(let i=0; i<planetArr.length; i++){
     let modal = planetArr[i] + topic + "Modal";
     let body = planetArr[i] + topic + "Body";
-    let titleId = planetArr[i] + topic + "Title"
+    let titleId = planetArr[i] + topic + "Title";
     if(i===0){
       let title = "All About the Sun!"
+      createModal(modal, body, titleId, title);
     }
     let title = "All About " + planetArr[i].capitalize() + "!"
     createModal(modal, body, titleId, title);
   }
 }
 topicModals(planets, "About");
+// topicModals(['saturn'], "Rings");
 
 
 
@@ -46,10 +49,11 @@ function navPopups(planetArr, topic){
   for (let i=0; i<planetArr.length; i++){
     let navId = `#${planetArr[i]}Nav`
     let modal = `#${planetArr[i]}${topic}Modal`;
-    subNav(navId, modal);
+    subNav(navId, modal, topic);
   }
 }
 navPopups(planets, "About");
+// navPopups(['saturn'], "Rings");
 
 
 
@@ -68,14 +72,16 @@ function createModal(planetTopicModal, planetTopicBody, planetTopicTitleId, plan
 
 
 //PLANET NAV BAR POPUPS FUNCTION=================================
-function subNav(planetId, planetTopicModal) {
+function subNav(planetId, planetTopicModal, topicButton) {
   // initialize popover with dynamic content
   $(planetId).popover({
     placement: 'top',
     container: 'body',
     html: true,
     trigger: 'hover',
-    content: `<p>Select a topic to find out more!</p><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target=${planetTopicModal}>About</button>`
+    content: `<p>Select a topic to find out more!</p><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target=${planetTopicModal}>${topicButton}</button>`
+
+    // `<p>Select a topic to find out more!</p><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target=${planetTopicModal}>${topicButton}</button>`
 
   });
   // prevent popover from being hidden on mouseout.
