@@ -2,7 +2,7 @@ $(document).ready(function(){
 
 $('[data-toggle="popover"]').popover();
 
-//API STUFF============================================
+//API STUFF=====================================================
 
 // var $planet =
 var $xhr = $.getJSON('https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=planets/mercury/indepth');
@@ -14,14 +14,15 @@ $xhr.done(function(data){
 
 
 
-//CREATE INFO MODALS FUNCTION===================================
+//PLANET ARRAY FOR OVERALL USE===================================
 var planets = ["sun", "mercury", "venus", "earth", "mars", "jupiter", "saturn", "uranus", "neptune"]
 
+
+//INVOKING INFO MODALS FUNCTION===================================
 function topicModals(planetArr, topic){
-  for(var i=0; i<planetArr.length; i++){
+  for(let i=0; i<planetArr.length; i++){
     let modal = planetArr[i] + topic + "Modal";
     let body = planetArr[i] + topic + "Body";
-    console.log(modal,body);
     createModal(modal, body);
   }
 }
@@ -29,17 +30,17 @@ topicModals(planets, "About");
 
 
 
+//INVOKING NAV BAR POPUPS FOR PLANETS FUNCTION====================
+function navPopups(planetArr, topic){
+  for (let i=0; i<planetArr.length; i++){
+    let navId = `#${planetArr[i]}Nav`
+    let modal = `#${planetArr[i]}${topic}Modal`;
+    console.log(modal);
+    subNav(navId, modal);
+  }
+}
+navPopups(planets, "About");
 
-//CALLING NAV BAR POPUPS FOR PLANETS====================
-subNav('#sunNav');
-subNav('#mercuryNav');
-subNav('#venusNav');
-subNav('#earthNav');
-subNav('#marsNav');
-subNav('#jupiterNav');
-subNav('#saturnNav');
-subNav('#uranusNav');
-subNav('#neptuneNav');
 
 
 //CREATE INFO MODALS FUNCTION===================================
@@ -55,14 +56,16 @@ function createModal(planetTopicModal, planetTopicBody){
 
 
 //PLANET NAV BAR POPUPS FUNCTION=================================
-function subNav(planetId) {
+function subNav(planetId, planetTopicModal) {
   // initialize popover with dynamic content
   $(planetId).popover({
     placement: 'top',
     container: 'body',
     html: true,
     trigger: 'hover',
-    content: '<p>Select a topic to find out more!</p><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#mercuryAboutModal">About</button>'
+    content: `<p>Select a topic to find out more!</p><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target=${planetTopicModal}>About</button>`
+
+    // '<p>Select a topic to find out more!</p><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#mercuryAboutModal">About</button>'
   });
   // prevent popover from being hidden on mouseout.
   // only dismiss when explicity clicked (e.g. has .hide-popover)
