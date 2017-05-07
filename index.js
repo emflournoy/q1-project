@@ -31,7 +31,7 @@ function topicModals(planetArr, topic){
     let body = planetArr[i] + topic + "Body";
     let titleId = planetArr[i] + topic + "Title"
     if(i===0){
-      let title = "All About the " + planetArr[i].capitalize() + "!"
+      let title = "All About the Sun!"
     }
     let title = "All About " + planetArr[i].capitalize() + "!"
     createModal(modal, body, titleId, title);

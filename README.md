@@ -25,6 +25,8 @@
 6) Include links to wireframes.
     https://www.draw.io/#Hemflournoy%2Fq1-project%2Fmaster%2Fq1-wireframe.xml
 
+    Public link: https://www.draw.io/?lightbox=1&highlight=0000ff&edit=_blank&layers=1&nav=1&title=q1-wireframe.xml#Uhttps%3A%2F%2Fraw.githubusercontent.com%2Femflournoy%2Fq1-project%2Fmaster%2Fq1-wireframe.xml
+
 7) Include link to project planning tool.
     https://trello.com/b/H6fPx8Pp/q1-project
 
