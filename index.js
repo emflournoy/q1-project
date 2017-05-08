@@ -8,6 +8,8 @@ var planets = ["sun", "mercury", "venus", "earth", "mars", "jupiter", "saturn", 
 
 var planetsData = {};
 
+var hoveredPlanet
+
 //take out spaces and replace with dashes for modalId
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
@@ -17,19 +19,30 @@ String.prototype.replaceAll = function(search, replacement) {
 
 //ABOUT PLANET API CALL FUNCTION==================================
 function planetGetData(planetsArr){
+  var promises = [];
   for(let i=0; i<planetsArr.length; i++){
-    var $xhr = $.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=planets/${planetsArr[i]}`);
-    $xhr.done(function(data){
-      planetsData[planetsArr[i]] = data.sidebar.subnav;
-      if (i===planetsArr.length-1){
-        //creating modalId
+    promises.push($.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=planets/${planetsArr[i]}`));
+    //
+    // $xhr.done(function(data){
+    //   planetsData[planetsArr[i]] = data.sidebar.subnav;
+    //   if (i===planetsArr.length-1){
+    //     //creating modalId
         modalIdCreator(planetsData);
         popButtons(planetsData);
         navPopups(planetsData);
-        console.log(planetsData);
-      }
-      });
+    //     console.log(planetsData);
+    //   }
+    //   });
   }
+  Promise.all(promises).then(function (results) {
+    for (planet of results) {
+      planetsData[planet.path[1]] = planet.sidebar.subnav;
+    }
+    modalIdCreator(planetsData);
+    popButtons(planetsData);
+    navPopups(planetsData);
+    console.log($("button"));
+  });
 }
 planetGetData(planets);
 
@@ -92,7 +105,8 @@ function popButtons(planetsData){
     for (let i=0; i<planetArr.length; i++){
       var buttonTitle = planetArr[i].title;
       var modalId = planetArr[i].modalId;
-      planetArr[i]['button'] = `<button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target=${modalId}>${buttonTitle}</button>`;
+      var url = planetArr[i].url;
+      planetArr[i]['button'] = `<button type="button" class="btn btn-primary testclickfunction" data-url=${url} data-toggle="modal" data-target=${modalId}>${buttonTitle}</button>`;
     }
   }
 }
@@ -130,19 +144,24 @@ function navPopups(planetsData){
 // navPopups(['saturn'], "Rings");
 
 
->>!!!!!!!!!<<
+
 //INVOKING INFO MODALS FUNCTION===================================
 //need to make a click function for each button on every popup.
 //write as click function for the entire body of the window then use target?
-$(BUTTON).click(function createModal(planetsData){
-  let $modal = $("#blankModal").clone();
-  $modal.removeAttr("id");
-  $modal.attr("id", planetTopicModal);
-  let $mbody = $modal.find("p");
-  $mbody.attr("id", planetTopicBody);
-  let $title = $modal.find("h5");
-  $title.html(planetTopicTitle);
-  $('body').append($modal);
+console.log($('.btn'));
+$('.btn').click(function createModal(event){
+  console.log('success')
+  // let $modal = $("#blankModal").clone();
+  // console.log(event.target);
+  // let $planet = event.target.attr('class');
+  // console.log($planet);
+  // $modal.removeAttr("id");
+  // $modal.attr("id", event.target);
+  // let $mbody = $modal.find("p");
+  // $mbody.attr("id", planetTopicBody);
+  // let $title = $modal.find("h5");
+  // $title.html(planetTopicTitle);
+  // $('body').append($modal);
 })
 
 
@@ -184,16 +203,17 @@ $(BUTTON).click(function createModal(planetsData){
 
 //CREATE INFO MODALS FUNCTION===================================
 
-function XcreateModal(planetsData){
-  let $modal = $("#blankModal").clone();
-  $modal.removeAttr("id");
-  $modal.attr("id", planetTopicModal);
-  let $mbody = $modal.find("p");
-  $mbody.attr("id", planetTopicBody);
-  let $title = $modal.find("h5");
-  $title.html(planetTopicTitle);
-  $('body').append($modal);
-}
+//original
+// function createModal(planetsData){
+//   let $modal = $("#blankModal").clone();
+//   $modal.removeAttr("id");
+//   $modal.attr("id", planetTopicModal);
+//   let $mbody = $modal.find("p");
+//   $mbody.attr("id", planetTopicBody);
+//   let $title = $modal.find("h5");
+//   $title.html(planetTopicTitle);
+//   $('body').append($modal);
+// }
 
 
 //PLANET NAV BAR POPUPS FUNCTION=================================
@@ -204,7 +224,7 @@ function subNav(planetId, buttonsStr) {
     container: 'body',
     html: true,
     trigger: 'hover',
-    content: `<p>Select a topic to find out more!</p>${buttonsStr}`
+    content: `<p class="testclick">Select a topic to find out more!</p>${buttonsStr}`
 
     // `<p>Select a topic to find out more!</p><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target=${planetTopicModal}>${topicButton}</button>`
 
@@ -239,6 +259,7 @@ function subNav(planetId, buttonsStr) {
       //set flags when mouse enters the button or the popover.
       //When the mouse leaves unset immediately, wait a second (to allow the mouse to enter again or enter the other) and then test to see if the mouse is no longer over either. If not, close popover.
       $(planetId).on('mouseenter', function(evt){
+        // var $planet = event.target.attr('class');
         $(this).data('overButton', true);
       });
       $(planetId).on('mouseleave', function(evt){
@@ -255,7 +276,7 @@ function subNav(planetId, buttonsStr) {
         });
         $('.popover-content').on('mouseleave', function (evt){
           $btn.data('overPopover', false);
-
+          
           setTimeout(function() {$btn.closePopover();}, 200);
         });
       });
@@ -263,7 +284,14 @@ function subNav(planetId, buttonsStr) {
 
 //END PLANET NAV BAR POPUPS FUNCTION===================================
 
-
+$('body').on('click',function (evt) {
+  let $target = $(evt.target);
+  if ($target.hasClass('testclickfunction')) {
+    console.log($target.data('url'));
+    // Make AJAX Call
+    // Build Modal
+  }
+});
 
 
 
