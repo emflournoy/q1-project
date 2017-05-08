@@ -108,7 +108,9 @@ function navPopups(planetsData){
     var planetArr = planetsData[planet];
     for (let i=0; i<planetArr.length; i++){
       buttonsStr += planetArr[i]['button'];
-      subNav(navId, buttonsStr);
+      if(i===planetArr.length-1){
+        subNav(navId, buttonsStr);
+      }
     }
   }
 }
@@ -128,22 +130,38 @@ function navPopups(planetsData){
 // navPopups(['saturn'], "Rings");
 
 
-
+>>!!!!!!!!!<<
 //INVOKING INFO MODALS FUNCTION===================================
-function topicModals(arr){
-  for(let i=0; i<arr.length; i++){
-    let modalId = arr[i][modal][modalId];
-    let body = arr[i] + topic + "Body";
-    let titleId = planetArr[i] + topic + "Title";
-    if(i===0){
-      let title = "All About the Sun!"
-      createModal(modal, body, titleId, title);
-    }
-    let title = "All About " + planetArr[i].capitalize() + "!"
-    createModal(modal, body, titleId, title);
-  }
-}
-topicModals(planetsData);
+//need to make a click function for each button on every popup.
+//write as click function for the entire body of the window then use target?
+$(BUTTON).click(function createModal(planetsData){
+  let $modal = $("#blankModal").clone();
+  $modal.removeAttr("id");
+  $modal.attr("id", planetTopicModal);
+  let $mbody = $modal.find("p");
+  $mbody.attr("id", planetTopicBody);
+  let $title = $modal.find("h5");
+  $title.html(planetTopicTitle);
+  $('body').append($modal);
+})
+
+
+
+//version two
+// function topicModals(arr){
+//   for(let i=0; i<arr.length; i++){
+//     let modalId = arr[i][modal][modalId];
+//     let body = arr[i] + topic + "Body";
+//     let titleId = planetArr[i] + topic + "Title";
+//     if(i===0){
+//       let title = "All About the Sun!"
+//       createModal(modal, body, titleId, title);
+//     }
+//     let title = "All About " + planetArr[i].capitalize() + "!"
+//     createModal(modal, body, titleId, title);
+//   }
+// }
+// topicModals(planetsData);
 
 
 //ORIGINAL
@@ -166,7 +184,7 @@ topicModals(planetsData);
 
 //CREATE INFO MODALS FUNCTION===================================
 
-function createModal(planetTopicModal, planetTopicBody, planetTopicTitleId, planetTopicTitle){
+function XcreateModal(planetsData){
   let $modal = $("#blankModal").clone();
   $modal.removeAttr("id");
   $modal.attr("id", planetTopicModal);
