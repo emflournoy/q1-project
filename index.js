@@ -6,30 +6,134 @@ $('[data-toggle="popover"]').popover();
 //THINGS FOR OVERALL USE===================================
 var planets = ["sun", "mercury", "venus", "earth", "mars", "jupiter", "saturn", "uranus", "neptune"]
 
-String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-}
+var planetsData = {};
+
+//take out spaces and replace with dashes for modalId
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
 
 
 //ABOUT PLANET API CALL FUNCTION==================================
-function topicGetData(planetArr,nasaTopic, topicModal){
-  for(let i=0; i<planetArr.length; i++){
-    var $xhr = $.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=planets/${planetArr[i]}/${nasaTopic}`);
+function planetGetData(planetsArr){
+  for(let i=0; i<planetsArr.length; i++){
+    var $xhr = $.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=planets/${planetsArr[i]}`);
     $xhr.done(function(data){
-      $(`#${planetArr[i]}${topicModal}Body`).html(`${data.main.content}`);
+      planetsData[planetsArr[i]] = data.sidebar.subnav;
+      if (i===planetsArr.length-1){
+        //creating modalId
+        modalIdCreator(planetsData);
+        popButtons(planetsData);
+        navPopups(planetsData);
+        console.log(planetsData);
+      }
       });
   }
 }
-topicGetData(planets, 'indepth', 'About');
+planetGetData(planets);
+
+
+//based off EMF object
+// function topicGetData(arr){
+//   for(let i=0; i<arr.length; i++){
+//     let planet = arr[i]['planet'];
+//     let calls = arr[i]['apiCall'];
+//     let title = arr[i]['buttonTitle'];
+//     for(let c=0; c<calls.length; c++){
+//       let apiCall = arr[i];
+//       let topic = title[c];
+//       var $xhr = $.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=planets/${planet}/${apiCall}`);
+//       $xhr.done(function(data){
+//         $(`#${planet}${topic}Body`).html(`${data.main.content}`);
+//       });
+//     }
+//   }
+// }
+// topicGetData(planetsData);
+
+
+//original function
+// function topicGetData(planetArr,nasaTopic, topicModal){
+//   for(let i=0; i<planetArr.length; i++){
+//     var $xhr = $.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=planets/${planetArr[i]}/${nasaTopic}`);
+//     $xhr.done(function(data){
+//       $(`#${planetArr[i]}${topicModal}Body`).html(`${data.main.content}`);
+//       });
+//   }
+// }
+// topicGetData(planets, 'indepth', 'About');
 // topicGetData(['saturn'], 'rings', 'Rings');
 
 
 
+
+//CREATE MODAL ID WITHIN PLANETSDATA FUNCTION=======================
+//this is called within the API function
+function modalIdCreator(planetsData){
+  for (var planet in planetsData){
+    var planetArr = planetsData[planet];
+    for (let i=0; i<planetArr.length; i++){
+      var title = planetArr[i].title;
+      var modId = title.replaceAll("\ ", "\-");
+      planetArr[i]['modalId'] = modId;
+    }
+  }
+}
+
+
+
+
+//CREATE BUTTONS WITHIN PLANETSDATA FUNCTION=======================
+//this is called within the API function
+function popButtons(planetsData){
+  for (var planet in planetsData){
+    var planetArr = planetsData[planet];
+    for (let i=0; i<planetArr.length; i++){
+      var buttonTitle = planetArr[i].title;
+      var modalId = planetArr[i].modalId;
+      planetArr[i]['button'] = `<button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target=${modalId}>${buttonTitle}</button>`;
+    }
+  }
+}
+
+
+
+//INVOKING NAV BAR POPUPS FOR PLANETS FUNCTION====================
+//this is called within the API function
+function navPopups(planetsData){
+  for (var planet in planetsData){
+    let navId = `#${planet}Nav`;
+    var buttonsStr = '';
+    var planetArr = planetsData[planet];
+    for (let i=0; i<planetArr.length; i++){
+      buttonsStr += planetArr[i]['button'];
+      subNav(navId, buttonsStr);
+    }
+  }
+}
+
+
+
+
+//ORIGINAL
+// function navPopups(planetArr, topic, ){
+//   for (let i=0; i<planetArr.length; i++){
+//     let navId = `#${planetArr[i]}Nav`
+//     let modal = `#${planetArr[i]}${topic}Modal`;
+//     subNav(navId, modal, topic);
+//   }
+// }
+// navPopups(planets, "About");
+// navPopups(['saturn'], "Rings");
+
+
+
 //INVOKING INFO MODALS FUNCTION===================================
-function topicModals(planetArr, topic){
-  for(let i=0; i<planetArr.length; i++){
-    let modal = planetArr[i] + topic + "Modal";
-    let body = planetArr[i] + topic + "Body";
+function topicModals(arr){
+  for(let i=0; i<arr.length; i++){
+    let modalId = arr[i][modal][modalId];
+    let body = arr[i] + topic + "Body";
     let titleId = planetArr[i] + topic + "Title";
     if(i===0){
       let title = "All About the Sun!"
@@ -39,22 +143,25 @@ function topicModals(planetArr, topic){
     createModal(modal, body, titleId, title);
   }
 }
-topicModals(planets, "About");
+topicModals(planetsData);
+
+
+//ORIGINAL
+// function topicModals(planetArr, topic){
+//   for(let i=0; i<planetArr.length; i++){
+//     let modal = planetArr[i] + topic + "Modal";
+//     let body = planetArr[i] + topic + "Body";
+//     let titleId = planetArr[i] + topic + "Title";
+//     if(i===0){
+//       let title = "All About the Sun!"
+//       createModal(modal, body, titleId, title);
+//     }
+//     let title = "All About " + planetArr[i].capitalize() + "!"
+//     createModal(modal, body, titleId, title);
+//   }
+// }
+// topicModals(planets, "About");
 // topicModals(['saturn'], "Rings");
-
-
-
-//INVOKING NAV BAR POPUPS FOR PLANETS FUNCTION====================
-function navPopups(planetArr, topic){
-  for (let i=0; i<planetArr.length; i++){
-    let navId = `#${planetArr[i]}Nav`
-    let modal = `#${planetArr[i]}${topic}Modal`;
-    subNav(navId, modal, topic);
-  }
-}
-navPopups(planets, "About");
-// navPopups(['saturn'], "Rings");
-
 
 
 //CREATE INFO MODALS FUNCTION===================================
@@ -72,18 +179,20 @@ function createModal(planetTopicModal, planetTopicBody, planetTopicTitleId, plan
 
 
 //PLANET NAV BAR POPUPS FUNCTION=================================
-function subNav(planetId, planetTopicModal, topicButton) {
+function subNav(planetId, buttonsStr) {
   // initialize popover with dynamic content
   $(planetId).popover({
     placement: 'top',
     container: 'body',
     html: true,
     trigger: 'hover',
-    content: `<p>Select a topic to find out more!</p><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target=${planetTopicModal}>${topicButton}</button>`
+    content: `<p>Select a topic to find out more!</p>${buttonsStr}`
 
     // `<p>Select a topic to find out more!</p><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target=${planetTopicModal}>${topicButton}</button>`
 
+
   });
+
   // prevent popover from being hidden on mouseout.
   // only dismiss when explicity clicked (e.g. has .hide-popover)
   $(planetId).on('hide.bs.popover', function(evt) {
