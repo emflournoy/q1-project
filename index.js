@@ -309,6 +309,14 @@ function subNav(planetId, buttonsStr) {
 
 //END PLANET NAV BAR POPUPS FUNCTION===================================
 
+//add Star Wars music
+var audio = document.createElement("audio");
+var $body = $('body');
+audio.src="starWars.mp3"
+$body.append(audio);
+audio.loop = true;
+audio.play();
+
 
 
 //END
