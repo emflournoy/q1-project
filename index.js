@@ -104,6 +104,7 @@ function popButtons(planetsData){
       var buttonTitle = planetArr[i].title;
       var modalId = planetArr[i].modalId;
       var url = planetArr[i].url;
+      //this is eventually inserted in the popup nav bar function at the bottom.
       planetArr[i]['button'] = `<button type="button" class="btn btn-primary topicButton" data-url=${url} data-title=${buttonTitle} data-toggle="modal" data-target=${modalId}>${buttonTitle}</button>`;
     }
   }
@@ -155,9 +156,17 @@ $('body').on('click',function (evt) {
         $modal.removeAttr("id");
         let $modalId = $target.data('target');
         $modal.attr("id", $modalId);
+        console.log(data);
       // Put in content from api call
         let $mbody = $modal.find("p");
+      // If galleries, switch to galleries section
+        let testId = data.title.includes('Galleries');
+        if (testId){
+          $mbody.html(data.gallery[0]['title'] + "<br>" + `<img src=https://g-solarsystem.herokuapp.com/${data.gallery[0].image} />`);
+          console.log('yes', data.gallery);
+        }else{
         $mbody.html(data.main.content);
+        }
       // Make title for modal
         let $title = $modal.find("h5");
         $title.html(data.title);
@@ -309,13 +318,32 @@ function subNav(planetId, buttonsStr) {
 
 //END PLANET NAV BAR POPUPS FUNCTION===================================
 
-//add Star Wars music
+
+
+
+//ADDING MUSIC=========================================================
 var audio = document.createElement("audio");
 var $body = $('body');
 audio.src="starWars.mp3"
 $body.append(audio);
 audio.loop = true;
 audio.play();
+var isPlaying = true;
+$("#audioToggle").click(function togglePlay() {
+  if (isPlaying) {
+    audio.pause()
+    $('#audioToggle').attr("class", "glyphicon glyphicon-volume-off");
+  } else {
+    audio.play();
+    $('#audioToggle').attr("class", "glyphicon glyphicon-volume-up");
+  }
+});
+audio.onplaying = function() {
+  isPlaying = true;
+};
+audio.onpause = function() {
+  isPlaying = false;
+};
 
 
 

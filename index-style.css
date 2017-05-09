@@ -4,8 +4,8 @@
   background-color: rgba(0, 0, 0, 0.4);
   max-width: 80%;
   align-items: center;
+  align-content: center;
 }
-
 
 
 /*====MODAL STYLING=====*/
@@ -36,6 +36,31 @@
 }
 
 #blankBody {
-  font-size: 16px;
+  /*font-size: 50px;*/
   color: #2797b3;
+}
+
+
+/*====RESPONSIVE STYLING=====*/
+/*@media screen and (max-width: 299px) { #blankBody { font-size: 70%; } }*/
+
+@media screen and (max-width: 500px){
+  #blankBody {font-size: 80%;}
+}
+
+@media screen and (max-width: 600px){
+  #blankBody {font-size: 90%;}
+}
+
+@media screen and (min-width: 600px){
+  #blankBody {font-size: 95%;}
+}
+
+@media screen and (min-width: 760px){
+  #blankBody {font-size: 90%;}
+}
+
+@media screen and (min-width: 1000px){
+  #blankBody {font-size: 20px;}
+  .modal-content {width: 800px;}
 }
