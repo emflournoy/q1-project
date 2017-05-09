@@ -150,18 +150,17 @@ $('body').on('click',function (evt) {
   // Make AJAX Call
     var $xhr = $.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=${$url}`);
     $xhr.done(function(data){
-      console.log(data)
       // Build Modal
         let $modal = $("#blankModal").clone();
         $modal.removeAttr("id");
         let $modalId = $target.data('target');
-        console.log($modalId);
         $modal.attr("id", $modalId);
+      // Put in content from api call
         let $mbody = $modal.find("p");
         $mbody.html(data.main.content);
+      // Make title for modal
         let $title = $modal.find("h5");
         $title.html(data.title);
-        console.log($modal);
         $('body').append($modal);
         $($modal).modal('show');
       })
@@ -250,7 +249,7 @@ function subNav(planetId, buttonsStr) {
     container: 'body',
     html: true,
     trigger: 'hover',
-    content: `<p class="testclick">Select a topic to find out more!</p>${buttonsStr}`
+    content: `${buttonsStr}`
 
     // `<p>Select a topic to find out more!</p><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target=${planetTopicModal}>${topicButton}</button>`
 
