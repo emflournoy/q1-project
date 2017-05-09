@@ -8,8 +8,6 @@ var planets = ["sun", "mercury", "venus", "earth", "mars", "jupiter", "saturn", 
 
 var planetsData = {};
 
-var hoveredPlanet
-
 //take out spaces and replace with dashes for modalId
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
@@ -22,14 +20,14 @@ function planetGetData(planetsArr){
   var promises = [];
   for(let i=0; i<planetsArr.length; i++){
     promises.push($.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=planets/${planetsArr[i]}`));
-    //
+    //original call
     // $xhr.done(function(data){
     //   planetsData[planetsArr[i]] = data.sidebar.subnav;
     //   if (i===planetsArr.length-1){
     //     //creating modalId
-        modalIdCreator(planetsData);
-        popButtons(planetsData);
-        navPopups(planetsData);
+        // modalIdCreator(planetsData);
+        // popButtons(planetsData);
+        // navPopups(planetsData);
     //     console.log(planetsData);
     //   }
     //   });
@@ -41,7 +39,7 @@ function planetGetData(planetsArr){
     modalIdCreator(planetsData);
     popButtons(planetsData);
     navPopups(planetsData);
-    console.log($("button"));
+    console.log($(planetsData));
   });
 }
 planetGetData(planets);
@@ -87,8 +85,8 @@ function modalIdCreator(planetsData){
   for (var planet in planetsData){
     var planetArr = planetsData[planet];
     for (let i=0; i<planetArr.length; i++){
-      var title = planetArr[i].title;
-      var modId = title.replaceAll("\ ", "\-");
+      var title = planetArr[i].url;
+      var modId = title.replaceAll("\/", "")+'Modal';
       planetArr[i]['modalId'] = modId;
     }
   }
@@ -106,7 +104,7 @@ function popButtons(planetsData){
       var buttonTitle = planetArr[i].title;
       var modalId = planetArr[i].modalId;
       var url = planetArr[i].url;
-      planetArr[i]['button'] = `<button type="button" class="btn btn-primary testclickfunction" data-url=${url} data-toggle="modal" data-target=${modalId}>${buttonTitle}</button>`;
+      planetArr[i]['button'] = `<button type="button" class="btn btn-primary topicButton" data-url=${url} data-title=${buttonTitle} data-toggle="modal" data-target=${modalId}>${buttonTitle}</button>`;
     }
   }
 }
@@ -144,6 +142,35 @@ function navPopups(planetsData){
 // navPopups(['saturn'], "Rings");
 
 
+//BUTTON ON CLICK MAKE API CALL & MODAL===========================
+$('body').on('click',function (evt) {
+  let $target = $(evt.target);
+  if ($target.hasClass('topicButton')) {
+    var $url = $target.data('url');
+  // Make AJAX Call
+    var $xhr = $.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=${$url}`);
+    $xhr.done(function(data){
+      console.log(data)
+      // Build Modal
+        let $modal = $("#blankModal").clone();
+        $modal.removeAttr("id");
+        let $modalId = $target.data('target');
+        console.log($modalId);
+        $modal.attr("id", $modalId);
+        let $mbody = $modal.find("p");
+        $mbody.html(data.main.content);
+        let $title = $modal.find("h5");
+        $title.html(data.title);
+        console.log($modal);
+        $('body').append($modal);
+        $($modal).modal('show');
+      })
+    }
+});
+
+
+
+
 
 //INVOKING INFO MODALS FUNCTION===================================
 //need to make a click function for each button on every popup.
@@ -151,18 +178,17 @@ function navPopups(planetsData){
 console.log($('.btn'));
 $('.btn').click(function createModal(event){
   console.log('success')
-  // let $modal = $("#blankModal").clone();
-  // console.log(event.target);
+  let $modal = $("#blankModal").clone();
   // let $planet = event.target.attr('class');
-  // console.log($planet);
-  // $modal.removeAttr("id");
-  // $modal.attr("id", event.target);
-  // let $mbody = $modal.find("p");
-  // $mbody.attr("id", planetTopicBody);
-  // let $title = $modal.find("h5");
-  // $title.html(planetTopicTitle);
-  // $('body').append($modal);
+  $modal.removeAttr("id");
+  $modal.attr("id", event.target);
+  let $mbody = $modal.find("p");
+  $mbody.attr("id", planetTopicBody);
+  let $title = $modal.find("h5");
+  $title.html(planetTopicTitle);
+  $('body').append($modal);
 })
+
 
 
 
@@ -276,22 +302,13 @@ function subNav(planetId, buttonsStr) {
         });
         $('.popover-content').on('mouseleave', function (evt){
           $btn.data('overPopover', false);
-          
+
           setTimeout(function() {$btn.closePopover();}, 200);
         });
       });
     };
 
 //END PLANET NAV BAR POPUPS FUNCTION===================================
-
-$('body').on('click',function (evt) {
-  let $target = $(evt.target);
-  if ($target.hasClass('testclickfunction')) {
-    console.log($target.data('url'));
-    // Make AJAX Call
-    // Build Modal
-  }
-});
 
 
 
