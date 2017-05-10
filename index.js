@@ -88,69 +88,66 @@ function navPopups(planetsData){
 
 
 //BUTTON ON CLICK MAKE API CALL & MODAL===========================
-$('body').on('click',function (evt) {
+$('body').on('click',function(evt){
   let $target = $(evt.target);
-  if ($target.hasClass('topicButton')) {
+  console.log($target);
 
-  // Make AJAX Call
-  var $url = $target.data('url');
-    var $xhr = $.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=${$url}`);
-    $xhr.done(function(data){
-      let $modalId = $target.data('target');
+  if ($target.hasClass('topicButton')){
+    console.log('AHHHHHH');
+    // Make AJAX Call
+    var $url = $target.data('url');
+      var $xhr = $.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=${$url}`);
+      $xhr.done(function(data){
+        let $modalId = $target.data('target');
 
-    // If galleries, switch to galleries section
-      let testId = data.title.includes('Galleries');
-      if (testId){
-        console.log(data);
-        // Build Modal
-          let $imgModal = $("#galleryModal").clone();
-            $imgModal.removeAttr("id");
-            $imgModal.attr("id", $modalId);
-        // Put in content from api call
-          let $title = $imgModal.find("h5");
-            $title.html(data.title);
-          let $imgTitle = $imgModal.find("h4");
-          let $image = $imgModal.find("#planetImg");
-          let $imgContent = $imgModal.find("p");
-            $imgTitle.html(data.gallery[imgCount]['title']);
-            $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[imgCount]['imagebrowse']}`);
-            $imgContent.html(data.gallery[imgCount]['content']);
-        // Link next button to same gallery
-          let $nextButton = $imgModal.find('#nextImg');
-            $nextButton.attr('data-url', `${$url}`);
-        // Append to body and show
-          $('body').append($imgModal);
-          $($imgModal).modal('show');
-        // // Function to go to next image
-        //   $('#nextImg').click(function changeImage(data){
-        //     imgCount += 1;
-        //     $imgTitle.html(data.gallery[imgCount]['title']);
-        //     $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[imgCount]['imagebrowse']}`);
-        //     $imgContent.html(data.gallery[imgCount]['content']);
-        //     console.log(data.gallery[imgCount]['title']);
-        //     $($imgModal).modal('show');
-        //   })
-
-      } else {
-    // Otherwise make normal modal
-        // Build Modal
-          let $textModal = $("#blankModal").clone();
-            $textModal.removeAttr("id");
-            $textModal.attr("id", $modalId);
-        // Put in content from api call
-          let $title = $textModal.find("h5");
-            $title.html(data.title);
-          let $mbody = $textModal.find("p");
-            $mbody.html(data.main.content);
-        // Append to body and show
-          $('body').append($textModal);
-          $($textModal).modal('show');
+      // If galleries, switch to galleries section
+        let testId = data.title.includes('Galleries');
+        if (testId){
+          console.log(data);
+          // Build Modal
+            let $imgModal = $("#galleryModal").clone();
+              $imgModal.removeAttr("id");
+              $imgModal.attr("id", $modalId);
+          // Put in content from api call
+            let $title = $imgModal.find("h5");
+              $title.html(data.title);
+            let $imgTitle = $imgModal.find("h4");
+              $imgTitle.html(data.gallery[imgCount]['title']);
+            let $image = $imgModal.find("#planetImg");
+              $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[imgCount]['imagebrowse']}`);
+            let $imgContent = $imgModal.find("p");
+              $imgContent.html(data.gallery[imgCount]['content']);
+          // Link next button to same gallery
+            let $nextButton = $imgModal.find('#nextImg');
+              $nextButton.attr('data-url', `${$url}`);
+          // Append to body and show
+            $('body').append($imgModal);
+            $($imgModal).modal('show');
         }
-      })
-    }
 
-  else if ($target.attr('id', 'nextImg')){
-    imgCount += 1;
+        else {
+      // Otherwise make normal modal
+          // Build Modal
+            let $textModal = $("#blankModal").clone();
+              $textModal.removeAttr("id");
+              $textModal.attr("id", $modalId);
+          // Put in content from api call
+            let $title = $textModal.find("h5");
+              $title.html(data.title);
+            let $mbody = $textModal.find("p");
+              $mbody.html(data.main.content);
+          // Append to body and show
+            $('body').append($textModal);
+            $($textModal).modal('show');
+          }
+        })
+      }
+
+
+  // else if ($target.attr('id', 'nextImg')){
+  else if ($target.is("#nextImg")){
+    console.log('pooooooop');
+    // imgCount += 1;
     var $url = $target.data('url');
       var $xhr = $.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=${$url}`);
       $xhr.done(function(data){
@@ -175,9 +172,13 @@ $('body').on('click',function (evt) {
           $('body').append($imgModal);
           $($imgModal).modal('show');
       });
-
-  } else if ($target.hasClass('closeBtn')){
+  }
+  else if ($target.hasClass('closeBtn')){
     imgCount = 0;
+  }
+  else {
+    console.log('hooray');
+    return;
   }
 
 });

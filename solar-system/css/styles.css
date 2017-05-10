@@ -1268,23 +1268,6 @@ h1 {
 .zoom-close #controls .set-zoom input:after {
   margin-left: 81px; }
 
-#controls label.set-sound:before {
-  font: normal small-caps 18px/14px sans-serif; }
-
-.zoom-large #controls label.set-sound:before {
-  content: 'on';
-  margin-left: 82px; }
-
-.zoom-close #controls label.set-sound:before {
-  content: 'off';
-  margin-left: 7px; }
-
-.zoom-large #controls .set-sound input:after {
-  margin-left: 3px; }
-
-.zoom-close #controls .set-sound input:after {
-  margin-left: 81px; }
-
 /* --------------------------------------------------------------------------- transitions */
 .pos {
   transition-property: top, left; }

@@ -162,3 +162,16 @@
 //     $('body').append($imgModal);
 //     $($imgModal).modal('show');
 // }
+
+
+
+
+// // Function to go to next image
+//   $('#nextImg').click(function changeImage(data){
+//     imgCount += 1;
+//     $imgTitle.html(data.gallery[imgCount]['title']);
+//     $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[imgCount]['imagebrowse']}`);
+//     $imgContent.html(data.gallery[imgCount]['content']);
+//     console.log(data.gallery[imgCount]['title']);
+//     $($imgModal).modal('show');
+//   })
