@@ -8,8 +8,13 @@
 }
 
 
-/*====MODAL STYLING=====*/
-/*makes modal scroll in window*/
+/*====TEXT MODAL STYLING=====*/
+.modal-content{
+  background-color: rgba(0, 0, 0, 0.8);
+  font-size: 15px;
+  border: 2px solid;
+}
+
 .modal-title {
   font-size: 20px;
   color:#fff;
@@ -30,12 +35,6 @@
   overflow-y: auto;
 }
 
-.modal-content{
-  background-color: rgba(0, 0, 0, 0.8);
-  font-size: 15px;
-  border: 2px solid;
-}
-
 /*#blankBody {
   color: #2797b3;
   margin: 15px;
@@ -50,10 +49,33 @@
 }
 
 .modal-body b{
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 800;
   line-height: 1.5;
 }
+
+/*====IMG MODAL STYLING=====*/
+
+.modal #imgTitle{
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 2;
+  color: #8db0b9;
+  align-content: center;
+}
+
+#imgModalContent{
+  text-align: center;
+}
+#imgCaption{
+  font-size: 20px;
+}
+
+/*#planetImg{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}*/
 
 
 
