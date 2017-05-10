@@ -135,3 +135,30 @@
 
 //PLANET NAV BAR POPUPS FUNCTION=================================
     // `<p>Select a topic to find out more!</p><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target=${planetTopicModal}>${topicButton}</button>`
+
+
+
+//CREATE IMAGE GALLERY MODAL FUNCTION============================
+// function createImageModal($target, data){
+//   // let $target = $(evt.target);
+//   let $modalId = $target.data('target');
+//   // Build Modal
+//     let $imgModal = $("#galleryModal").clone();
+//       $imgModal.removeAttr("id");
+//       $imgModal.attr("id", $modalId);
+//   // Put in content from api call
+//     let $title = $imgModal.find("h5");
+//       $title.html(data.title);
+//     let $imgTitle = $imgModal.find("h4");
+//     let $image = $imgModal.find("#planetImg");
+//     let $imgContent = $imgModal.find("p");
+//       $imgTitle.html(data.gallery[imgCount]['title']);
+//       $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[imgCount]['imagebrowse']}`);
+//       $imgContent.html(data.gallery[imgCount]['content']);
+//   // Link next button to same gallery
+//     let $nextButton = $imgModal.find('#nextImg');
+//       $nextButton.attr('data-url', `${$url}`);
+//   // Append to body and show
+//     $('body').append($imgModal);
+//     $($imgModal).modal('show');
+// }

@@ -8,6 +8,8 @@ var planets = ["sun", "mercury", "venus", "earth", "mars", "jupiter", "saturn", 
 
 var planetsData = {};
 
+var imgCount = 0;
+
 //take out spaces and replace with dashes for modalId
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
@@ -108,14 +110,26 @@ $('body').on('click',function (evt) {
           let $title = $imgModal.find("h5");
             $title.html(data.title);
           let $imgTitle = $imgModal.find("h4");
-            $imgTitle.html(data.gallery[0]['title']);
           let $image = $imgModal.find("#planetImg");
-            $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[0].imagebrowse}`);
           let $imgContent = $imgModal.find("p");
-            $imgContent.html(data.gallery[0]['content']);
+            $imgTitle.html(data.gallery[imgCount]['title']);
+            $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[imgCount]['imagebrowse']}`);
+            $imgContent.html(data.gallery[imgCount]['content']);
+        // Link next button to same gallery
+          let $nextButton = $imgModal.find('#nextImg');
+            $nextButton.attr('data-url', `${$url}`);
         // Append to body and show
           $('body').append($imgModal);
           $($imgModal).modal('show');
+        // // Function to go to next image
+        //   $('#nextImg').click(function changeImage(data){
+        //     imgCount += 1;
+        //     $imgTitle.html(data.gallery[imgCount]['title']);
+        //     $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[imgCount]['imagebrowse']}`);
+        //     $imgContent.html(data.gallery[imgCount]['content']);
+        //     console.log(data.gallery[imgCount]['title']);
+        //     $($imgModal).modal('show');
+        //   })
 
       } else {
     // Otherwise make normal modal
@@ -134,7 +148,59 @@ $('body').on('click',function (evt) {
         }
       })
     }
+
+  else if ($target.attr('id', 'nextImg')){
+    imgCount += 1;
+    var $url = $target.data('url');
+      var $xhr = $.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=${$url}`);
+      $xhr.done(function(data){
+        let $modalId = $target.data('target');
+        // Build Modal
+          let $imgModal = $("#galleryModal").clone();
+            $imgModal.removeAttr("id");
+            $imgModal.attr("id", $modalId);
+        // Put in content from api call
+          let $title = $imgModal.find("h5");
+            $title.html(data.title);
+          let $imgTitle = $imgModal.find("h4");
+          let $image = $imgModal.find("#planetImg");
+          let $imgContent = $imgModal.find("p");
+            $imgTitle.html(data.gallery[imgCount]['title']);
+            $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[imgCount]['imagebrowse']}`);
+            $imgContent.html(data.gallery[imgCount]['content']);
+        // Link next button to same gallery
+          let $nextButton = $imgModal.find('#nextImg');
+            $nextButton.attr('data-url', `${$url}`);
+        // Append to body and show
+          $('body').append($imgModal);
+          $($imgModal).modal('show');
+      });
+
+  } else if ($target.hasClass('closeBtn')){
+    imgCount = 0;
+  }
+
 });
+
+//FUNCTION FOR MOVING TO NEXT IMAGE
+// $('#nextImg').click(function changeImage(data){
+//   let $imgTitle = $imgModal.find("h4");
+//   let $image = $imgModal.find("#planetImg");
+//   let $imgContent = $imgModal.find("p");
+//   let imgCount = 0;
+//     $imgTitle.html(data.gallery[imgCount]['title']);
+//     $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[imgCount]['imagebrowse']}`);
+//     $imgContent.html(data.gallery[imgCount]['content']);
+// })
+
+$('#nextImg').click(function changeImage(data){
+  imgCount += 1;
+  $imgTitle.html(data.gallery[imgCount]['title']);
+  $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[imgCount]['imagebrowse']}`);
+  $imgContent.html(data.gallery[imgCount]['content']);
+  console.log(data.gallery[imgCount]['title']);
+  $($imgModal).modal('show');
+})
 
 
 
