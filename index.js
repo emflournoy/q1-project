@@ -156,15 +156,14 @@ $('body').on('click',function (evt) {
         $modal.removeAttr("id");
         let $modalId = $target.data('target');
         $modal.attr("id", $modalId);
-        console.log(data);
       // Put in content from api call
         let $mbody = $modal.find("p");
       // If galleries, switch to galleries section
         let testId = data.title.includes('Galleries');
         if (testId){
           $mbody.html(data.gallery[0]['title'] + "<br>" + `<img src=https://g-solarsystem.herokuapp.com/${data.gallery[0].image} />`);
-          console.log('yes', data.gallery);
         }else{
+      // Otherwise make normal modal
         $mbody.html(data.main.content);
         }
       // Make title for modal
@@ -183,20 +182,21 @@ $('body').on('click',function (evt) {
 //INVOKING INFO MODALS FUNCTION===================================
 //need to make a click function for each button on every popup.
 //write as click function for the entire body of the window then use target?
-console.log($('.btn'));
-$('.btn').click(function createModal(event){
-  console.log('success')
-  let $modal = $("#blankModal").clone();
-  // let $planet = event.target.attr('class');
-  $modal.removeAttr("id");
-  $modal.attr("id", event.target);
-  let $mbody = $modal.find("p");
-  $mbody.attr("id", planetTopicBody);
-  let $title = $modal.find("h5");
-  $title.html(planetTopicTitle);
-  $('body').append($modal);
-})
 
+// first attempt reformat
+// console.log($('.btn'));
+// $('.btn').click(function createModal(event){
+//   console.log('success')
+//   let $modal = $("#blankModal").clone();
+//   // let $planet = event.target.attr('class');
+//   $modal.removeAttr("id");
+//   $modal.attr("id", event.target);
+//   let $mbody = $modal.find("p");
+//   $mbody.attr("id", planetTopicBody);
+//   let $title = $modal.find("h5");
+//   $title.html(planetTopicTitle);
+//   $('body').append($modal);
+// })
 
 
 
