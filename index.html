@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable = no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title dir="ltr">PLANETS!</title>
+    <title dir="ltr">EOSS</title>
 
     <script
       src="http://code.jquery.com/jquery-2.2.4.min.js"
@@ -37,10 +37,18 @@
   <div class='container-fluid'>
     <div id="navbar">
         <a id="toggle-data" href="#data"><i class="icon-data"></i>Data</a>
-        <h1>Explore the Solar System!</h1>
+        <h1>Explore Our Solar System</h1>
         <a id="toggle-controls" href="#controls"><i class="icon-controls"></i>Controls</a>
     </div>
 
+  <!-- EOSS - explore our solar system
+  SPOK - space planets oribts knowledge
+  HUE - Heliocentric Universe Exploration
+  SOL - Space Object Looker
+  STD - Space Teaching Device
+  CSON - couldn't settle on name
+  SEIYU - see space in your underwear
+  CHEWIE - creative heliocentric exploration with interactive elements -->
 
 <!-- BOTTOM PLANET NAV -->
   <div id="data">
@@ -93,7 +101,8 @@
           <p id="imgCaption"></p>
         </div>
         <div class="modal-footer">
-          <button type="button" id="nextImg" class="btn btn-primary" data-dismiss="modal">Next</button>
+          <button type="button" id="prevImg" class="btn btn-primary imgNavButton" data-dismiss="modal">Previous</button>
+          <button type="button" id="nextImg" class="btn btn-primary imgNavButton" data-dismiss="modal">Next</button>
           <button type="button" class="btn btn-primary closeBtn" data-dismiss="modal">Close</button>
         </div>
       </div>

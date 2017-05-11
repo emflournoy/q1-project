@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Orbitron');
+
+h1{
+  font-family: 'Orbitron', sans-serif;
+  font-size: 30px;
+}
 
 /*====POPOVER STYLING=====*/
 .popover{
@@ -35,6 +41,16 @@
   overflow-y: auto;
 }
 
+body .modal-dialog { /* Width */
+    max-width: 80%;
+    width: auto !important;
+    display: inline-block;
+}
+
+.modal.in{
+     text-align: center;
+}
+
 /*#blankBody {
   color: #2797b3;
   margin: 15px;
@@ -46,12 +62,14 @@
   margin-bottom: 10px;
   margin-left: 15px;
   margin-right: 15px;
+  text-align: left;
 }
 
 .modal-body b{
   font-size: 24px;
   font-weight: 800;
   line-height: 1.5;
+  text-align: left;
 }
 
 /*====IMG MODAL STYLING=====*/
@@ -80,6 +98,7 @@
 
 
 
+
 /*====RESPONSIVE STYLING=====*/
 /*@media screen and (max-width: 299px) { #blankBody { font-size: 70%; } }*/
 
@@ -101,5 +120,4 @@
 
 @media screen and (min-width: 1000px){
   #blankBody {font-size: 20px;}
-  .modal-content {width: 800px;}
 }

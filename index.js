@@ -90,10 +90,8 @@ function navPopups(planetsData){
 //BUTTON ON CLICK MAKE API CALL & MODAL===========================
 $('body').on('click',function(evt){
   let $target = $(evt.target);
-  console.log($target);
 
   if ($target.hasClass('topicButton')){
-    console.log('AHHHHHH');
     // Make AJAX Call
     var $url = $target.data('url');
       var $xhr = $.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=${$url}`);
@@ -103,7 +101,6 @@ $('body').on('click',function(evt){
       // If galleries, switch to galleries section
         let testId = data.title.includes('Galleries');
         if (testId){
-          console.log(data);
           // Build Modal
             let $imgModal = $("#galleryModal").clone();
               $imgModal.removeAttr("id");
@@ -117,9 +114,12 @@ $('body').on('click',function(evt){
               $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[imgCount]['imagebrowse']}`);
             let $imgContent = $imgModal.find("p");
               $imgContent.html(data.gallery[imgCount]['content']);
-          // Link next button to same gallery
+          // Link next/prev button to same gallery
             let $nextButton = $imgModal.find('#nextImg');
               $nextButton.attr('data-url', `${$url}`);
+            let $prevButton = $imgModal.find('#prevImg');
+              $prevButton.attr('data-url', `${$url}`);
+              console.log($prevButton);
           // Append to body and show
             $('body').append($imgModal);
             $($imgModal).modal('show');
@@ -145,10 +145,21 @@ $('body').on('click',function(evt){
 
 
   // else if ($target.attr('id', 'nextImg')){
-  else if ($target.is("#nextImg")){
-    console.log('pooooooop');
-    // imgCount += 1;
+  else if ($target.hasClass('imgNavButton')){
+    console.log($target);
+    if ($target.is("#nextImg")){
+      imgCount += 1;
+      console.log("up imgCount", imgCount);
+      console.log($target);
+    } else if (imgCount===0){
+      console.log('zeroo');
+      return;
+    } else if ($target.is("#prevImg")) {
+      imgCount -=1;
+      console.log("down imgCount", imgCount);
+    }
     var $url = $target.data('url');
+    console.log($target);
       var $xhr = $.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=${$url}`);
       $xhr.done(function(data){
         let $modalId = $target.data('target');
@@ -168,6 +179,8 @@ $('body').on('click',function(evt){
         // Link next button to same gallery
           let $nextButton = $imgModal.find('#nextImg');
             $nextButton.attr('data-url', `${$url}`);
+          let $prevButton = $imgModal.find('#prevImg');
+            $prevButton.attr('data-url', `${$url}`);
         // Append to body and show
           $('body').append($imgModal);
           $($imgModal).modal('show');
@@ -175,15 +188,27 @@ $('body').on('click',function(evt){
   }
   else if ($target.hasClass('closeBtn')){
     imgCount = 0;
+    console.log(imgCount);
   }
   else {
-    console.log('hooray');
     return;
   }
 
+
+
+  // END OF BUTTON ON CLICK MAKE API CALL & MODAL
 });
 
 //FUNCTION FOR MOVING TO NEXT IMAGE
+$('#nextImg').click(function changeImage(data){
+  imgCount += 1;
+  $imgTitle.html(data.gallery[imgCount]['title']);
+  $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[imgCount]['imagebrowse']}`);
+  $imgContent.html(data.gallery[imgCount]['content']);
+  console.log(data.gallery[imgCount]['title']);
+  $($imgModal).modal('show');
+})
+
 // $('#nextImg').click(function changeImage(data){
 //   let $imgTitle = $imgModal.find("h4");
 //   let $image = $imgModal.find("#planetImg");
@@ -194,14 +219,6 @@ $('body').on('click',function(evt){
 //     $imgContent.html(data.gallery[imgCount]['content']);
 // })
 
-$('#nextImg').click(function changeImage(data){
-  imgCount += 1;
-  $imgTitle.html(data.gallery[imgCount]['title']);
-  $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[imgCount]['imagebrowse']}`);
-  $imgContent.html(data.gallery[imgCount]['content']);
-  console.log(data.gallery[imgCount]['title']);
-  $($imgModal).modal('show');
-})
 
 
 
