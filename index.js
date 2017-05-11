@@ -62,8 +62,10 @@ function popButtons(planetsData){
       var buttonTitle = planetArr[i].title;
       var modalId = planetArr[i].modalId;
       var url = planetArr[i].url;
+
       //this is eventually inserted in the popup nav bar function at the bottom.
       planetArr[i]['button'] = `<button type="button" class="btn btn-primary topicButton" data-url=${url} data-title=${buttonTitle} data-toggle="modal" data-target=${modalId}>${buttonTitle}</button>`;
+
     }
   }
 }
@@ -78,9 +80,16 @@ function navPopups(planetsData){
     var buttonsStr = '';
     var planetArr = planetsData[planet];
     for (let i=0; i<planetArr.length; i++){
-      buttonsStr += planetArr[i]['button'];
-      if(i===planetArr.length-1){
-        subNav(navId, buttonsStr);
+      var button = planetArr[i]["button"];
+      if (!button.includes('News') && !button.includes('Education')){
+        buttonsStr += planetArr[i]['button'];
+        if(i===planetArr.length-1){
+          subNav(navId, buttonsStr);
+        }
+        //compensates for the fact that News is the last section in Jupiter...
+        else if (i===planetArr.length-2 && (navId==="#jupiterNav" || navId==="#earthNav")) {
+          subNav(navId, buttonsStr);
+        }
       }
     }
   }
@@ -131,6 +140,8 @@ $('body').on('click',function(evt){
             let $textModal = $("#blankModal").clone();
               $textModal.removeAttr("id");
               $textModal.attr("id", $modalId);
+          // Take care of FAQ sections
+            console.log($("a[anchor]"))
           // Put in content from api call
             let $title = $textModal.find("h5");
               $title.html(data.title);
@@ -185,7 +196,11 @@ $('body').on('click',function(evt){
           $('body').append($imgModal);
           $($imgModal).modal('show');
       });
+    }
+  else if ($target.attr('anchor')){
+
   }
+
   else if ($target.hasClass('closeBtn')){
     imgCount = 0;
     console.log(imgCount);
