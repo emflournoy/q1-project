@@ -120,4 +120,5 @@ body .modal-dialog { /* Width */
 
 @media screen and (min-width: 1000px){
   #blankBody {font-size: 20px;}
+  /*.popover-content {placement: top;}*/
 }

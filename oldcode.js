@@ -166,7 +166,8 @@
 
 
 
-// // Function to go to next image
+
+//FUNCTION TO GO TO NEXT IMAGE============================
 //   $('#nextImg').click(function changeImage(data){
 //     imgCount += 1;
 //     $imgTitle.html(data.gallery[imgCount]['title']);
@@ -175,3 +176,48 @@
 //     console.log(data.gallery[imgCount]['title']);
 //     $($imgModal).modal('show');
 //   })
+
+
+// $('#nextImg').click(function changeImage(data){
+//   let $imgTitle = $imgModal.find("h4");
+//   let $image = $imgModal.find("#planetImg");
+//   let $imgContent = $imgModal.find("p");
+//   let imgCount = 0;
+//     $imgTitle.html(data.gallery[imgCount]['title']);
+//     $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[imgCount]['imagebrowse']}`);
+//     $imgContent.html(data.gallery[imgCount]['content']);
+// })
+
+
+
+//working original for all
+// $('body').on('click',function (evt) {
+//   let $target = $(evt.target);
+//   if ($target.hasClass('topicButton')) {
+//     var $url = $target.data('url');
+//   // Make AJAX Call
+//     var $xhr = $.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=${$url}`);
+//     $xhr.done(function(data){
+//       // Build Modal
+//         let $modal = $("#blankModal").clone();
+//         $modal.removeAttr("id");
+//         let $modalId = $target.data('target');
+//         $modal.attr("id", $modalId);
+//       // Put in content from api call
+//         let $mbody = $modal.find("p");
+//       // If galleries, switch to galleries section
+//         let testId = data.title.includes('Galleries');
+//         if (testId){
+//           $mbody.html(data.gallery[0]['title'] + "<br>" + `<img src=https://g-solarsystem.herokuapp.com/${data.gallery[0].image} />`);
+//         }else{
+//       // Otherwise make normal modal
+//         $mbody.html(data.main.content);
+//         }
+//       // Make title for modal
+//         let $title = $modal.find("h5");
+//         $title.html(data.title);
+//         $('body').append($modal);
+//         $($modal).modal('show');
+//       })
+//     }
+// });
