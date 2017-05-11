@@ -1,3 +1,26 @@
+
+
+//OLD CSS FOR MODAL RESIZING WIDTH==============================
+//width works and is centered, but has issues with exit strangely off to the left instead of going straight up
+
+/*body .modal-dialog {
+    max-width: 80%;
+    width: auto !important;
+    display: inline-block;
+}
+
+.modal.in{
+     text-align: center;
+}*/
+
+/*#blankBody {
+  color: #2797b3;
+  margin: 15px;
+}*/
+
+
+
+
 //INVOKING NAV BAR POPUPS FOR PLANETS FUNCTION====================
 //ORIGINAL
 // function navPopups(planetArr, topic, ){

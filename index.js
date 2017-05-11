@@ -3,12 +3,12 @@ $(document).ready(function(){
 $('[data-toggle="popover"]').popover();
 
 
-//THINGS FOR OVERALL USE===================================
+//THINGS FOR OVERALL USE=========================================
 var planets = ["sun", "mercury", "venus", "earth", "mars", "jupiter", "saturn", "uranus", "neptune"]
 
 var planetsData = {};
-
 var imgCount = 0;
+var popPlace = 'top';
 
 //take out spaces and replace with dashes for modalId
 String.prototype.replaceAll = function(search, replacement) {
@@ -17,7 +17,24 @@ String.prototype.replaceAll = function(search, replacement) {
 };
 
 
-//ABOUT PLANET API CALL FUNCTION==================================
+//GET SCREEN SIZE FOR POPOVER PLACEMENT===============================
+// note: this is not a dynamic sizing. page must be refreshed for pop to change.
+function screenSize() {
+    if ($(document).width() < 1000){
+      popPlace = "right";
+    } else {
+      popPlace = "top";
+    }
+}
+screenSize();
+
+$(window).on('resize', function(){
+    screenSize();
+});
+
+
+
+//ABOUT PLANET API CALL FUNCTION=====================================
 function planetGetData(planetsArr){
   var promises = [];
   for(let i=0; i<planetsArr.length; i++){
@@ -230,7 +247,8 @@ $('body').on('click',function(evt){
 function subNav(planetId, buttonsStr) {
   // initialize popover with dynamic content
   $(planetId).popover({
-    placement: 'top',
+    placement: `${popPlace}`,
+    // `${orientation}`
     container: 'body',
     html: true,
     trigger: 'hover',
@@ -319,5 +337,5 @@ audio.onpause = function() {
 
 
 
-//END
+//END OF JS
 });
