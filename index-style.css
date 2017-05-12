@@ -5,6 +5,10 @@ h1{
   font-size: 30px;
 }
 
+.container-fluid{
+  padding-left: 0;
+}
+
 /*====POPOVER STYLING=====*/
 .popover{
   background-color: rgba(0, 0, 0, 0.4);
