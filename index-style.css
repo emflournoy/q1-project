@@ -41,7 +41,9 @@ h1{
   overflow-y: auto;
 }
 
-
+.modal-dialog {
+  margin-top: 50px;
+}
 
 .modal-body p{
   font-size: 17px;
@@ -73,6 +75,7 @@ h1{
 #imgModalContent{
   text-align: center;
 }
+
 #imgCaption{
   font-size: 20px;
 }
@@ -83,11 +86,7 @@ h1{
   align-items: center;
 }
 
-
-
-
-
-/*====RESPONSIVE STYLING=====*/
+/*====WIDTH RESPONSIVE STYLING=====*/
 @media screen and (min-width: 200px){
   h1 {font-size: 12px}
 }
@@ -102,6 +101,7 @@ h1{
 
 @media screen and (max-width: 600px){
   #blankBody {font-size: 90%;}
+  .modal-body { max-height: 450px; }
 }
 
 @media screen and (min-width: 600px){
@@ -110,13 +110,58 @@ h1{
   /*h1 {font-size: 20px}*/
 }
 
-@media screen and (min-width: 760px){
+@media screen and (min-width: 740px){
   .modal-body { max-height: 520px; }
   #blankBody {font-size: 90%;}
 }
 
 @media screen and (min-width: 1000px){
   #blankBody {font-size: 20px;}
-  .modal-body { max-height: 620px; }
+  .modal-body { max-height: 540px; }
   h1 {font-size: 30px}
+}
+
+/*====HEIGHT RESPONSIVE STYLING=====*/
+@media screen and (min-height: 300px){
+  .modal-body {max-height: 180px;}
+  .modal-dialog {margin-top: 8px}
+  .modal-header {padding: 8px}
+  .modal-footer {padding: 8px}
+  #blankBody {font-size: 80%;}
+}
+
+@media screen and (min-height: 360px){
+  .modal-body { max-height: 210px; }
+  .modal-dialog {margin-top: 15px}
+  #blankBody {font-size: 80%;}
+}
+
+@media screen and (min-height: 410px){
+  .modal-body {max-height: 240px;}
+  .modal-dialog {margin-top: 22px}
+}
+
+@media screen and (min-height: 490px){
+  .modal-body { max-height: 270px; }
+  .modal-dialog {margin-top: 38px}
+}
+
+@media screen and (min-height: 570px){
+  .modal-body {max-height: 340px;}
+  .modal-dialog {margin-top: 55px}
+}
+
+@media screen and (min-height: 700px){
+  .modal-body {max-height: 450px;}
+  .modal-dialog {margin-top: 55px}
+}
+
+@media screen and (min-height: 790px){
+  .modal-body {max-height: 520px;}
+  .modal-dialog {margin-top: 60px}
+}
+
+@media screen and (min-height: 900px){
+  .modal-body { max-height: 640px; }
+  .modal-dialog {margin-top: 70px}
 }

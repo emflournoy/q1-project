@@ -28,6 +28,7 @@ function screenSize() {
 }
 screenSize();
 
+//function for dynamic resizing - needs work
 $(window).on('resize', function(){
     screenSize();
 });
@@ -47,7 +48,6 @@ function planetGetData(planetsArr){
     modalIdCreator(planetsData);
     popButtons(planetsData);
     navPopups(planetsData);
-    console.log($(planetsData));
   });
 }
 planetGetData(planets);
@@ -248,7 +248,6 @@ function subNav(planetId, buttonsStr) {
   // initialize popover with dynamic content
   $(planetId).popover({
     placement: `${popPlace}`,
-    // `${orientation}`
     container: 'body',
     html: true,
     trigger: 'hover',
