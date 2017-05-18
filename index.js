@@ -135,57 +135,15 @@ $('body').on('click',function(evt){
       $xhr.done(function(data){
         let $modalId = $target.data('target');
 
-      //OPT A: If galleries, switch to galleries section
+      //OPT A: If galleries, create gallery modal
         let testId = data.title.includes('Galleries');
         if (testId){
-          // Build Modal
-            let $imgModal = $("#galleryModal").clone();
-              $imgModal.removeAttr("id");
-              $imgModal.attr("id", $modalId);
-          // Put in content from api call
-            let $title = $imgModal.find("h5");
-              $title.html(data.title);
-            let $imgTitle = $imgModal.find("h4");
-              $imgTitle.html(data.gallery[imgCount]['title']);
-            let $image = $imgModal.find("#planetImg");
-              $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[imgCount]['imagebrowse']}`);
-            let $imgContent = $imgModal.find("p");
-              $imgContent.html(data.gallery[imgCount]['content']);
-          // Link next/prev button to same gallery
-            let $nextButton = $imgModal.find('#nextImg');
-              $nextButton.attr('data-url', `${$url}`);
-            let $prevButton = $imgModal.find('#prevImg');
-              $prevButton.attr('data-url', `${$url}`);
-          // Append to body and show
-            $('body').append($imgModal);
-            $($imgModal).modal('show');
+          galleryModal(data, $modalId, $url);
         }
 
-      //OPT B: Otherwise make normal modal
+      //OPT B: Otherwise make normal modal or delete unwated topics
         else {
-          // Build Modal
-            let $textModal = $("#blankModal").clone();
-              $textModal.removeAttr("id");
-              $textModal.attr("id", $modalId);
-            // Put in content from api call
-              let $title = $textModal.find("h5");
-                $title.html(data.title);
-              let $mbody = $textModal.find("p");
-                $mbody.html(data.main.content);
-            // Append to body and show
-              $('body').append($textModal);
-            // Take care of FAQ sections
-              $("a[anchor]").each(function(){
-                var $this = $(this);
-                $this.attr({href: `#${$this.attr('anchor')}`})
-              })
-            // On close trigger modal remove
-              let $closeButton = $textModal.find('#closeButton');
-              $closeButton.click(function(event) {
-                $mbody.remove();
-              });
-            // Unleash the knowledge
-            $($textModal).modal('show');
+            otherModals(data, $modalId)
           }
         })
       }
@@ -203,27 +161,7 @@ $('body').on('click',function(evt){
       var $xhr = $.getJSON(`https://g-solarsystem.herokuapp.com/json/page-json.cfm?URLPath=${$url}`);
       $xhr.done(function(data){
         let $modalId = $target.data('target');
-        // Build Modal
-          let $imgModal = $("#galleryModal").clone();
-            $imgModal.removeAttr("id");
-            $imgModal.attr("id", $modalId);
-        // Put in content from api call
-          let $title = $imgModal.find("h5");
-            $title.html(data.title);
-          let $imgTitle = $imgModal.find("h4");
-          let $image = $imgModal.find("#planetImg");
-          let $imgContent = $imgModal.find("p");
-            $imgTitle.html(data.gallery[imgCount]['title']);
-            $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[imgCount]['imagebrowse']}`);
-            $imgContent.html(data.gallery[imgCount]['content']);
-        // Link next button to same gallery
-          let $nextButton = $imgModal.find('#nextImg');
-            $nextButton.attr('data-url', `${$url}`);
-          let $prevButton = $imgModal.find('#prevImg');
-            $prevButton.attr('data-url', `${$url}`);
-        // Append to body and show
-          $('body').append($imgModal);
-          $($imgModal).modal('show');
+        galleryModal(data, $modalId, $url);
       });
     }
 
@@ -239,6 +177,63 @@ $('body').on('click',function(evt){
 
   // END OF BUTTON ON CLICK MAKE API CALL & MODAL
 });
+
+
+
+
+//MAKE A GALLERY MODAL==========================================
+function galleryModal(data, $modalId, $url){
+  // Build Modal
+    let $imgModal = $("#galleryModal").clone();
+      $imgModal.removeAttr("id");
+      $imgModal.attr("id", $modalId);
+  // Put in content from api call
+    let $title = $imgModal.find("h5");
+      $title.html(data.title);
+    let $imgTitle = $imgModal.find("h4");
+      $imgTitle.html(data.gallery[imgCount]['title']);
+    let $image = $imgModal.find("#planetImg");
+      $image.attr("src", `https://g-solarsystem.herokuapp.com/${data.gallery[imgCount]['imagebrowse']}`);
+    let $imgContent = $imgModal.find("p");
+      $imgContent.html(data.gallery[imgCount]['content']);
+  // Link next/prev button to same gallery
+    let $nextButton = $imgModal.find('#nextImg');
+      $nextButton.attr('data-url', `${$url}`);
+    let $prevButton = $imgModal.find('#prevImg');
+      $prevButton.attr('data-url', `${$url}`);
+  // Append to body and show
+    $('body').append($imgModal);
+    $($imgModal).modal('show');
+}
+
+
+//MAKE OTHER MODALS OR REMOVE UNWANTED TOPICS==================
+function otherModals(data, $modalId){
+  // Build Modal
+    let $textModal = $("#blankModal").clone();
+      $textModal.removeAttr("id");
+      $textModal.attr("id", $modalId);
+    // Put in content from api call
+      let $title = $textModal.find("h5");
+        $title.html(data.title);
+      let $mbody = $textModal.find("p");
+        $mbody.html(data.main.content);
+    // Append to body and show
+      $('body').append($textModal);
+    // Take care of FAQ sections
+      $("a[anchor]").each(function(){
+        var $this = $(this);
+        $this.attr({href: `#${$this.attr('anchor')}`})
+      })
+    // On close trigger modal remove
+      let $closeButton = $textModal.find('#closeButton');
+      $closeButton.click(function(event) {
+        $mbody.remove();
+      });
+    // Unleash the knowledge
+    $($textModal).modal('show');
+}
+
 
 
 
